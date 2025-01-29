@@ -1,22 +1,30 @@
-public class Service extends Product{
+import exceptions.InvalidPriceException;
 
+public class Service implements Item{
+    private String name;
+    private double pricePerHour;
     private double hoursWorked;
 
-    public Service(String name, double price, double hoursWorked) {
-        super(name, price);
-        this.hoursWorked = hoursWorked;
-    }
-
-    public double getHoursWorked() {
-        return hoursWorked;
-    }
-
-    public void setHoursWorked(double hoursWorked) {
+    public Service(String name, double pricePerHour, double hoursWorked) {
+        this.name = name;
+        this.pricePerHour = pricePerHour;
         this.hoursWorked = hoursWorked;
     }
 
     @Override
-    public double calculateSubtotal(int quantity) {
-        return getPrice() * hoursWorked;
+    public double calculateTotal() {
+        return pricePerHour * hoursWorked;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getPricePerHour() {
+        return pricePerHour;
+    }
+
+    public double getHoursWorked() {
+        return hoursWorked;
     }
 }

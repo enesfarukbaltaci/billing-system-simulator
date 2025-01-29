@@ -1,50 +1,39 @@
+import exceptions.InvalidDateFormatException;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Invoice {
 
     private String invoiceNumber;
-    private List<Product> items;
-    private String date;
+    private LocalDate date;
+    private List<Item> items;
 
-    public Invoice(String invoiceNumber, List<Product> items, String date) {
+    public Invoice(String invoiceNumber, LocalDate date) {
         this.invoiceNumber = invoiceNumber;
-        this.items = items;
         this.date = date;
+        this.items = new ArrayList<>();
     }
 
     public String getInvoiceNumber() {
         return invoiceNumber;
     }
 
-    public void setInvoiceNumber(String invoiceNumber) {
-        this.invoiceNumber = invoiceNumber;
-    }
-
-    public List<Product> getItems() {
-        return items;
-    }
-
-    public void setItems(List<Product> items) {
-        this.items = items;
-    }
-
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void addItem(Item item) {
+        items.add(item);
     }
 
-    public double calculateSubtotal(){
-        return items.stream().mapToDouble(item -> item.calculateSubtotal(1)).sum();
-    }
-
-    public double calculateTaxes(){
-        return calculateSubtotal() * 0.15;
-    }
-
-    public double calculateTotal(){
-        return calculateSubtotal() + calculateTaxes();
+    public double calculateTotal() {
+        double total = 0.0;
+        for (Item item : items) {
+            total += item.calculateTotal();
+        }
+        return total;
     }
 }
